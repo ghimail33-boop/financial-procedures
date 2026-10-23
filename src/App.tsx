@@ -24,6 +24,7 @@ export default function App() {
   const [searchModalOpen, setSearchModalOpen] = useState(false);
   const [bookmarksModalOpen, setBookmarksModalOpen] = useState(false);
   const [fontSize, setFontSize] = useState<'normal' | 'large' | 'xlarge'>('normal');
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   // Bookmarks persisted in localStorage
   const [bookmarks, setBookmarks] = useState<string[]>(() => {
@@ -123,8 +124,7 @@ export default function App() {
       : '';
 
   return (
-    <div className={`min-h-screen flex flex-col bg-slate-50 text-slate-800 ${fontSizeClass}`}>
-      {/* Official Top Navigation */}
+    <div className={`min-h-screen bg-slate-50 text-slate-800 ${fontSizeClass}`}>
       <Header
         activeTab={activeTab}
         onSelectTab={(tab) => {
@@ -136,10 +136,12 @@ export default function App() {
         onOpenBookmarks={() => setBookmarksModalOpen(true)}
         fontSize={fontSize}
         onChangeFontSize={setFontSize}
+        sidebarCollapsed={sidebarCollapsed}
+        onToggleSidebar={() => setSidebarCollapsed((collapsed) => !collapsed)}
       />
 
-      {/* Main Container */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-8 py-6">
+      <div className={`min-h-screen pt-16 transition-[margin] duration-200 ${sidebarCollapsed ? 'md:ml-20' : 'md:ml-[14.4rem]'}`}>
+      <main className="w-full px-4 py-6 sm:px-6 lg:px-8">
         {activeTab === 'home' && (
           <HomeSection
             onSelectTab={(tab) => {
@@ -240,7 +242,7 @@ export default function App() {
                 <span>नेपाल सरकार</span>
               </div>
               <p className="text-slate-400 text-xs leading-relaxed">
-                सार्वजनिक वित्तीय व्यवस्थापन (PFM) प्रणालीलाई पारदर्शी, मितव्ययी र जवाफदेही बनाउन तयार पारिएको कानुनी वेब प्रणाली।
+                सार्वजनिक वित्तीय व्यवस्थापन (PFM) प्रणाली सम्बन्धी जानकारीमूलक पेज।
               </p>
             </div>
 
@@ -292,7 +294,7 @@ export default function App() {
 
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-slate-500 text-[11px]">
             <div>
-              © २०८१ नेपाल सरकार · आर्थिक कार्यविधि तथा वित्तीय उत्तरदायित्व कानुनी सूचना पोर्टल।
+              © २०८३ · आर्थिक कार्यविधि तथा वित्तीय उत्तरदायित्व कानूनी सूचना पोर्टल।
             </div>
             <div>
               स्रोत: नेपाल कानुन आयोग तथा नेपाल राजपत्र
@@ -300,6 +302,7 @@ export default function App() {
           </div>
         </div>
       </footer>
+      </div>
     </div>
   );
 }

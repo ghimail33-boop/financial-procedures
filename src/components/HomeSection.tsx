@@ -19,6 +19,7 @@ import {
 import { ACT_METADATA } from '../data/actData';
 import { RULES_METADATA } from '../data/rulesData';
 import { ActiveTab } from './Header';
+import mofImage from '../../mof.gif';
 
 interface HomeSectionProps {
   onSelectTab: (tab: ActiveTab) => void;
@@ -30,21 +31,32 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, onOpenSea
     <div className="space-y-8 pb-12">
       {/* Hero Banner */}
       <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-950 via-slate-900 to-red-950 text-white p-6 sm:p-10 border border-slate-800 shadow-xl">
-        <div className="relative z-10 max-w-3xl space-y-4">
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-full sm:w-[52%]">
+          <img
+            src={mofImage}
+            alt=""
+            aria-hidden="true"
+            className="h-full w-full object-cover object-center"
+            style={{ filter: 'grayscale(1) sepia(0.35) hue-rotate(175deg) saturate(1.35) brightness(0.72)' }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/65 to-slate-900/10" />
+        </div>
+
+        <div className="relative z-10 max-w-3xl space-y-4 sm:max-w-[62%]">
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-red-600/30 text-red-300 border border-red-500/30 rounded-full text-xs font-semibold">
             <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-            <span>नेपाल सरकारको आधिकारिक वित्तीय कानुन तथा नियमावली पोर्टल</span>
+            <span>नेपाल सरकारको आर्थिक कार्यविधि तथा नियमावली पोर्टल</span>
           </div>
 
-          <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">
+          <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight leading-tight">
             आर्थिक कार्यविधि तथा वित्तीय उत्तरदायित्व
-            <span className="block text-red-400 mt-1">डिजिटल कानुनी सहायता प्रणाली</span>
+            {/* <span className="block text-red-400 mt-1">डिजिटल कानूनी सहायता प्रणाली</span> */}
           </h1>
 
           <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-            नेपालको सार्वजनिक वित्तीय व्यवस्थापन प्रणालीलाई जिम्मेवार, पारदर्शी, नतिजामूलक र उत्तरदायी बनाउन जारी
+            जिम्मेवार, पारदर्शी, नतिजामूलक र उत्तरदायी सार्वजनिक वित्तीय व्यवस्थापन
             <strong> आर्थिक कार्यविधि तथा वित्तीय उत्तरदायित्व ऐन, २०७६ (संशोधन २०८१ सहित)</strong> र{' '}
-            <strong>नियमावली, २०७७ (१९ वटा अनुसूची ढाँचाहरू)</strong> को सम्पूर्ण कानुनी ज्ञान, दफा-नियम खोजी र व्यावहारिक निर्देशिका।
+            <strong>नियमावली, २०७७ (१९ वटा अनुसूची ढाँचाहरू)</strong> को कानूनी प्रावधानहरुको जानकारीमूलक निर्देशिका।
           </p>
 
           {/* Quick Action Buttons */}
@@ -73,10 +85,6 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, onOpenSea
           </div>
         </div>
 
-        {/* Heraldic background design accent */}
-        <div className="absolute right-0 bottom-0 translate-x-12 translate-y-12 opacity-10 pointer-events-none">
-          <Scale className="w-96 h-96 text-white" />
-        </div>
       </div>
 
       {/* Official Statistics Matrix */}
@@ -107,7 +115,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, onOpenSea
           onClick={() => onSelectTab('schedules')}
           className="p-5 bg-white border border-slate-200 rounded-xl hover:border-blue-400 transition cursor-pointer shadow-2xs group"
         >
-          <div className="text-xs font-semibold text-slate-500 uppercase">कानुनी ढाँचाहरू</div>
+          <div className="text-xs font-semibold text-slate-500 uppercase">कानूनी ढाँचाहरू</div>
           <div className="text-3xl font-extrabold text-slate-900 group-hover:text-blue-700 mt-1">
             १९ <span className="text-sm font-semibold text-slate-500">अनुसूचीहरू</span>
           </div>
@@ -313,7 +321,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, onOpenSea
       {/* Official Downloads Strip */}
       <div className="bg-slate-900 text-white rounded-2xl p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="space-y-1 text-center md:text-left">
-          <h4 className="text-lg font-bold">नेपाल राजपत्र र कानुन आयोगका मूल कानुनी पीडीएफ कागजातहरू</h4>
+          <h4 className="text-lg font-bold">नेपाल राजपत्र र कानून आयोगका मूल कानूनी पीडीएफ कागजातहरू</h4>
           <p className="text-xs text-slate-400">
             प्रमाणीकरण मिति २०७६।०६।२४ (पहिलो संशोधन २०८१) र राजपत्र २०७७।१०।१९ का पूर्ण दस्तावेजहरू
           </p>
