@@ -56,7 +56,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, onOpenSea
           <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
             जिम्मेवार, पारदर्शी, नतिजामूलक र उत्तरदायी सार्वजनिक वित्तीय व्यवस्थापन
             <strong> आर्थिक कार्यविधि तथा वित्तीय उत्तरदायित्व ऐन, २०७६ (संशोधन २०८१ सहित)</strong> र{' '}
-            <strong>नियमावली, २०७७ (१९ वटा अनुसूची ढाँचाहरू)</strong> को कानूनी प्रावधानहरुको जानकारीमूलक निर्देशिका।
+            <strong>नियमावली, २०७७</strong>, नेपालको संविधान, २०७२ तथा अन्तर–सरकारी वित्त व्यवस्थापन ऐन, २०७४ को जानकारीमूलक पेज।
           </p>
 
           {/* Quick Action Buttons */}
@@ -86,6 +86,24 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, onOpenSea
         </div>
 
       </div>
+
+      <button
+        type="button"
+        onClick={() => onSelectTab('fiscal-framework')}
+        className="group flex w-full items-center justify-between gap-4 rounded-2xl border border-blue-200 bg-blue-50/70 p-5 text-left transition hover:border-blue-400 hover:bg-blue-50 sm:p-6"
+      >
+        <span className="flex items-start gap-3">
+          <span className="rounded-xl bg-blue-100 p-2.5 text-blue-800">
+            <Scale className="h-5 w-5" />
+          </span>
+          <span>
+            <span className="block text-xs font-bold uppercase tracking-wider text-blue-800">थप कानुनी आधार</span>
+            <span className="mt-1 block font-bold text-slate-900">नेपालको संविधान र अन्तर–सरकारी वित्त व्यवस्थापन ऐन</span>
+            <span className="mt-1 block text-sm text-slate-600">वित्तीय संघीयता, कर अधिकार, राजस्व बाँडफाँट, अनुदान, ऋण र जवाफदेहिताका सारांश प्रावधानहरू</span>
+          </span>
+        </span>
+        <ArrowRight className="h-5 w-5 shrink-0 text-blue-700 transition-transform group-hover:translate-x-1" />
+      </button>
 
       {/* Official Statistics Matrix */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

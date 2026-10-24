@@ -38,6 +38,30 @@ const OFFICIAL_PDFS: PdfDoc[] = [
     date: 'राजपत्र प्रकाशन: २०७७/१०/१९ (खण्ड ७०, संख्या ४०, भाग ३)',
     type: 'नियमावली (नेपाल राजपत्र)',
     description: 'नेपाल राजपत्रमा प्रकाशित आधिकारिक पूर्ण नियमावली र सबै १९ वटा कानुनी अनुसूची फारामहरू (१९७ पृष्ठ)।'
+  },
+  {
+    id: 'constitution-2072',
+    titleNepali: 'नेपालको संविधान, २०७२ (संशोधनसहित)',
+    titleEnglish: 'Constitution of Nepal, 2072',
+    fileName: 'constitution-of-nepal-2072.pdf',
+    filePath: '/assets/constitution-of-nepal-2072.pdf',
+    size: '४.१५ MB',
+    pages: 183,
+    date: 'नेपाल राजपत्रमा प्रकाशन: २०७२/०६/०३',
+    type: 'संविधान',
+    description: 'संघ, प्रदेश र स्थानीय तहको वित्तीय अधिकार, बजेट, सञ्चित कोष, राजस्व बाँडफाँट र लेखापरीक्षणसम्बन्धी संवैधानिक व्यवस्था।'
+  },
+  {
+    id: 'fiscal-act-2074',
+    titleNepali: 'अन्तर–सरकारी वित्त व्यवस्थापन ऐन, २०७४',
+    titleEnglish: 'Intergovernmental Fiscal Arrangement Act, 2074',
+    fileName: 'intergovernmental-fiscal-management-act-2074.pdf',
+    filePath: '/assets/intergovernmental-fiscal-management-act-2074.pdf',
+    size: '६३६ KB',
+    pages: 20,
+    date: 'प्रमाणीकरण: २०७४/०६/२७',
+    type: 'ऐन (अन्तरसरकारी वित्त)',
+    description: 'कर तथा गैरकर अधिकार, राजस्व बाँडफाँट, अनुदान, ऋण, बजेट प्रक्रिया र तीनै तहको वित्तीय जवाफदेहितासम्बन्धी ऐन।'
   }
 ];
 

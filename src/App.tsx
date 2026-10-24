@@ -9,6 +9,7 @@ import { PenaltiesSection } from './components/PenaltiesSection';
 import { CalendarSection } from './components/CalendarSection';
 import { CalculatorsSection } from './components/CalculatorsSection';
 import { PdfViewerSection } from './components/PdfViewerModal';
+import { FiscalFrameworkSection } from './components/FiscalFrameworkSection';
 import { SearchModal } from './components/SearchModal';
 import { ScheduleDetailModal } from './components/ScheduleDetailModal';
 import { DafaDetailModal } from './components/DafaDetailModal';
@@ -193,6 +194,10 @@ export default function App() {
         {activeTab === 'calculators' && <CalculatorsSection />}
 
         {activeTab === 'pdfs' && <PdfViewerSection />}
+
+        {activeTab === 'fiscal-framework' && (
+          <FiscalFrameworkSection onOpenOfficialPdfs={() => setActiveTab('pdfs')} />
+        )}
       </main>
 
       {/* Modals */}
@@ -264,6 +269,8 @@ export default function App() {
                 <li>• पहिलो संशोधन ऐन, २०८१ (२०८१।१२।१८)</li>
                 <li>• आर्थिक कार्यविधि तथा वित्तीय उत्तरदायित्व नियमावली, २०७७</li>
                 <li>• राजपत्रका सम्पूर्ण १९ वटा आधिकारिक अनुसूचीहरू</li>
+                <li>• नेपालको संविधान, २०७२</li>
+                <li>• अन्तर–सरकारी वित्त व्यवस्थापन ऐन, २०७४</li>
               </ul>
             </div>
 

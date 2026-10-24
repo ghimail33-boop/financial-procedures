@@ -25,7 +25,8 @@ export type ActiveTab =
   | 'penalties'
   | 'calendar'
   | 'calculators'
-  | 'pdfs';
+  | 'pdfs'
+  | 'fiscal-framework';
 
 interface HeaderProps {
   activeTab: ActiveTab;
@@ -52,6 +53,7 @@ const navigationGroups: {
     items: [
       { id: 'act', label: 'ऐन, २०७६', icon: Scale },
       { id: 'rules', label: 'नियमावली, २०७७', icon: BookOpen },
+      { id: 'fiscal-framework', label: 'संविधान तथा संघीय वित्त', icon: Scale },
       { id: 'schedules', label: 'अनुसूचीहरू (१–१९)', icon: FileSpreadsheet },
       { id: 'pdfs', label: 'मूल कानुनी पीडीएफ', icon: Download }
     ]

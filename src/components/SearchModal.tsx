@@ -13,7 +13,7 @@ interface SearchModalProps {
   onNavigate: (tab: ActiveTab, targetId?: string | number) => void;
 }
 
-type SearchCategory = 'all' | 'act' | 'rules' | 'schedules' | 'guides' | 'penalties';
+type SearchCategory = 'all' | 'act' | 'rules' | 'schedules' | 'guides' | 'penalties' | 'fiscal-framework';
 
 export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNavigate }) => {
   const [query, setQuery] = useState('');
@@ -146,6 +146,32 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNav
       });
     }
 
+    if (selectedFilter === 'all' || selectedFilter === 'fiscal-framework') {
+      const fiscalFrameworkText = [
+        'नेपालको संविधान constitution',
+        'अन्तरसरकारी अन्तर-सरकारी अन्तर–सरकारी वित्त व्यवस्थापन ऐन',
+        'धारा ५० ५१ ५७ ५९ ६० अनुसूची ५ ६ ७ ८ ९ आर्थिक उद्देश्य वित्तीय अधिकार',
+        'वित्तीय संघीयता कर गैरकर राजस्व बाँडफाँट मूल्य अभिवृद्धि कर अन्तःशुल्क रोयल्टी',
+        'वित्तीय समानीकरण सशर्त समपूरक विशेष अनुदान',
+        'वैदेशिक सहायता आन्तरिक ऋण बजेट मध्यमकालीन खर्च संरचना वित्तीय अनुशासन पारदर्शिता',
+        'लेखापरीक्षण सञ्चित कोष राष्ट्रिय प्राकृतिक स्रोत तथा वित्त आयोग अन्तरसरकारी वित्त परिषद्',
+        'धारा ५० धारा ५१ धारा ५७ धारा ५९ धारा ६० धारा ११५ धारा ११६ धारा ११७ धारा ११८ धारा ११९ धारा १२० धारा १२१ धारा १२२ धारा १२३ धारा १२४ धारा १२५ धारा २०३ धारा २०४ धारा २०५ धारा २०६ धारा २०७ धारा २०८ धारा २०९ धारा २१० धारा २११ धारा २१२ धारा २१३ धारा २२८ धारा २२९ धारा २३० धारा २४० धारा २४१ धारा २५० धारा २५१',
+        'दफा १ दफा २ दफा ३ दफा ४ दफा ५ दफा ६ दफा ६क दफा ७ दफा ८ दफा ९ दफा १० दफा ११ दफा १२ दफा १३ दफा १४ दफा १५ दफा १६ दफा १७ दफा १८ दफा १९ दफा २० दफा २१ दफा २२ दफा २३ दफा २४ दफा २५ दफा २६ दफा २७ दफा २८ दफा २९ दफा ३० दफा ३१ दफा ३२ दफा ३३ दफा ३४ दफा ३५ दफा ३६ दफा ३७ दफा ३८ दफा ३९ अनुसूची १ अनुसूची २ अनुसूची ३ अनुसूची ४'
+      ].join(' ').toLowerCase();
+      if (fiscalFrameworkText.includes(q)) {
+        results.push({
+          id: 'fiscal-framework',
+          title: 'संविधान तथा अन्तर–सरकारी वित्त व्यवस्थापन',
+          subtitle: 'वित्तीय संघीयता · कर, बजेट, अनुदान, ऋण र जवाफदेहिता',
+          categoryLabel: 'संविधान तथा संघीय वित्त',
+          category: 'fiscal-framework',
+          tab: 'fiscal-framework',
+          targetId: 'overview',
+          snippet: 'संविधान, २०७२ र अन्तर–सरकारी वित्त व्यवस्थापन ऐन, २०७४ का विषयगत सारांश तथा मूल कानून PDF।'
+        });
+      }
+    }
+
     return results.slice(0, 30);
   }, [query, selectedFilter]);
 
@@ -160,6 +186,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNav
     { label: 'कुमारी चोक', query: 'कुमारी चोक' },
     { label: 'रकमान्तर', query: 'रकमान्तर' },
     { label: 'MTEF / मध्यमकालीन खर्च', query: 'MTEF' },
+    { label: 'संविधान र संघीय वित्त', query: 'संविधान' },
   ];
 
   return (
@@ -202,7 +229,8 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNav
               { id: 'rules', label: 'नियमावलीका नियम' },
               { id: 'schedules', label: 'अनुसूचीहरू (१-१९)' },
               { id: 'guides', label: 'सरल निर्देशिका' },
-              { id: 'penalties', label: 'सजाय र जरिवाना' }
+              { id: 'penalties', label: 'सजाय र जरिवाना' },
+              { id: 'fiscal-framework', label: 'संविधान तथा संघीय वित्त' }
             ] as const
           ).map((filter) => (
             <button
