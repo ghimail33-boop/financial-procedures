@@ -49,19 +49,19 @@ const navigationGroups: {
     items: [{ id: 'home', label: 'गृहपृष्ठ', icon: BookOpen }]
   },
   {
-    label: 'कानुनी संग्रह',
+    label: 'कानूनी प्रावधानहरू',
     items: [
       { id: 'act', label: 'ऐन, २०७६', icon: Scale },
       { id: 'rules', label: 'नियमावली, २०७७', icon: BookOpen },
-      { id: 'fiscal-framework', label: 'संविधान तथा संघीय वित्त', icon: Scale },
       { id: 'schedules', label: 'अनुसूचीहरू (१–१९)', icon: FileSpreadsheet },
-      { id: 'pdfs', label: 'मूल कानुनी पीडीएफ', icon: Download }
+      { id: 'fiscal-framework', label: 'संविधान तथा संघीय वित्त', icon: Scale },
+      { id: 'pdfs', label: 'मूल कानून PDF', icon: Download }
     ]
   },
   {
-    label: 'मार्गदर्शन तथा उपकरण',
+    label: 'गाइड तथा क्याल्कुलेटर',
     items: [
-      { id: 'guides', label: 'सरल निर्देशिका', icon: BookOpen },
+      { id: 'guides', label: 'सरल गाइड', icon: BookOpen },
       { id: 'penalties', label: 'सजाय र जरिवाना', icon: AlertTriangle },
       { id: 'calendar', label: 'वित्तीय क्यालेन्डर', icon: Calendar },
       { id: 'calculators', label: 'क्याल्कुलेटर', icon: Calculator }
@@ -216,7 +216,7 @@ export const Header: React.FC<HeaderProps> = ({
         <div className={`border-t border-white/10 p-3 text-center ${sidebarCollapsed ? 'md:hidden' : ''}`}>
           <span className="inline-flex items-center gap-2 rounded-lg bg-white/10 px-3 py-2 text-[10px] font-medium text-blue-100">
             <span className="h-1.5 w-1.5 rounded-full bg-blue-300" />
-            २०८१ संशोधन समावेश
+            पहिलो संशोधन २०८१ सहित
           </span>
           <p className="mt-2 text-[10px] text-blue-200/70">सार्वजनिक वित्तीय व्यवस्थापन पोर्टल</p>
         </div>

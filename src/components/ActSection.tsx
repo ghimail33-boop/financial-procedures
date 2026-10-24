@@ -54,7 +54,7 @@ export const ActSection: React.FC<ActSectionProps> = ({
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 text-xs font-semibold text-red-700 uppercase tracking-wider mb-1">
-              <span>नेपाल कानुन आयोग प्रमाणित</span>
+              {/* <span>नेपाल कानुन आयोग प्रमाणित</span> */}
               <span>·</span>
               <span>संवत् २०७६ सालको ऐन नं. १०</span>
               <span>·</span>

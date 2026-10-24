@@ -45,16 +45,16 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, onOpenSea
         <div className="relative z-10 max-w-3xl space-y-4 sm:max-w-[62%]">
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-red-600/30 text-red-300 border border-red-500/30 rounded-full text-xs font-semibold">
             <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-            <span>नेपाल सरकारको आर्थिक कार्यविधि तथा नियमावली पोर्टल</span>
+            <span>आर्थिक कार्यविधि तथा वित्तीय उत्तरदायित्व</span>
           </div>
 
           <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight leading-tight">
-            आर्थिक कार्यविधि तथा वित्तीय उत्तरदायित्व
+            सार्वजनिक वित्त व्यवस्थापन सम्बन्धी जानकारी
             {/* <span className="block text-red-400 mt-1">डिजिटल कानूनी सहायता प्रणाली</span> */}
           </h1>
 
           <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-            जिम्मेवार, पारदर्शी, नतिजामूलक र उत्तरदायी सार्वजनिक वित्तीय व्यवस्थापन
+            {/* जिम्मेवार, पारदर्शी, नतिजामूलक र उत्तरदायी सार्वजनिक वित्तीय व्यवस्थापन <br /> */}
             <strong> आर्थिक कार्यविधि तथा वित्तीय उत्तरदायित्व ऐन, २०७६ (संशोधन २०८१ सहित)</strong> र{' '}
             <strong>नियमावली, २०७७</strong>, नेपालको संविधान, २०७२ तथा अन्तर–सरकारी वित्त व्यवस्थापन ऐन, २०७४ को जानकारीमूलक पेज।
           </p>
@@ -73,14 +73,14 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, onOpenSea
               className="inline-flex items-center gap-2 px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-xl font-medium text-sm transition"
             >
               <BookOpen className="w-4 h-4 text-emerald-400" />
-              <span>१० मुख्य व्यावहारिक निर्देशिकाहरू</span>
+              <span>१० मुख्य जानकारीहरू</span>
             </button>
             <button
               onClick={() => onSelectTab('pdfs')}
               className="inline-flex items-center gap-2 px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-xl font-medium text-sm transition"
             >
               <Download className="w-4 h-4 text-amber-400" />
-              <span>मूल राजपत्र पीडीएफ</span>
+              <span>मूल कानून PDF</span>
             </button>
           </div>
         </div>

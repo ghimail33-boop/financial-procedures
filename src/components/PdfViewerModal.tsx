@@ -84,7 +84,7 @@ export const PdfViewerSection: React.FC = () => {
               मूल कानुनी कागजातहरू (Official Gazette PDFs)
             </h2>
             <p className="text-sm text-slate-600 mt-1">
-              प्रयोगकर्ताको सहजताका लागि संसद् तथा नेपाल राजपत्रबाट जारी दुवै मूल कानुनी दस्तावेजहरू सिधै पढ्न वा डाउनलोड गर्न सकिन्छ।
+              संसद् तथा नेपाल कानून आयोगका उपलब्ध मूल कानुनी दस्तावेजहरू सिधै पढ्न वा डाउनलोड गर्न सकिन्छ।
             </p>
           </div>
 
@@ -156,7 +156,7 @@ export const PdfViewerSection: React.FC = () => {
           <div className="flex items-center gap-2.5">
             <Eye className="w-4 h-4 text-emerald-400" />
             <span className="text-sm font-semibold truncate max-w-xl">
-              दस्तावेज दर्शक: {activePdf.titleNepali}
+              दस्तावेज: {activePdf.titleNepali}
             </span>
           </div>
 
@@ -167,7 +167,7 @@ export const PdfViewerSection: React.FC = () => {
               onClick={() => setShowEmbedded(!showEmbedded)}
               className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 rounded text-slate-200 transition"
             >
-              {showEmbedded ? 'दर्शक लुकाउनुहोस्' : 'दर्शक देखाउनुहोस्'}
+              {showEmbedded ? 'PDF लुकाउनुहोस्' : 'PDF देखाउनुहोस्'}
             </button>
           </div>
         </div>
@@ -183,7 +183,7 @@ export const PdfViewerSection: React.FC = () => {
         ) : (
           <div className="p-12 text-center text-slate-500 space-y-3">
             <FileText className="w-12 h-12 text-slate-300 mx-auto" />
-            <p className="text-sm font-medium">पीडीएफ दर्शक बन्द गरिएको छ।</p>
+            <p className="text-sm font-medium">PDF Viewer बन्द गरिएको छ।</p>
             <button
               type="button"
               onClick={() => setShowEmbedded(true)}

@@ -13,15 +13,15 @@ export const GuidesSection: React.FC = () => {
       {/* Banner */}
       <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
         <div className="flex items-center gap-2 text-xs font-semibold text-emerald-700 uppercase tracking-wider mb-1">
-          <span>व्यावहारिक प्रयोगकर्ता निर्देशिका</span>
+          <span>व्यावहारिक जानकारी</span>
           <span>·</span>
-          <span>सरल भाषामा कानुनी व्याख्या</span>
+          <span>सरल भाषामा व्याख्या</span>
         </div>
         <h2 className="text-2xl font-bold text-slate-900 tracking-tight">
-          ऐन तथा नियमावलीको सरल र व्यावहारिक मार्गदर्शक (User-Friendly Guide)
+          ऐन तथा नियमावलीको सरल र व्यावहारिक जानकारी (User-Friendly Guide)
         </h2>
         <p className="text-sm text-slate-600 mt-1">
-          बजेट, बेरुजु, पेश्की, धरौटी, लिलाम, सरकारी बाँकी र सजाय सम्बन्धी कानुनी प्रावधानहरूको दैनिक कामकाजमा आवश्यक पर्ने सरल प्रश्नोत्तर तथा चरणबद्ध प्रक्रिया।
+          बजेट, बेरुजु, पेश्की, धरौटी, लिलाम, सरकारी बाँकी र सजाय सम्बन्धी कानूनी प्रावधानहरूको दैनिक कामकाजमा आवश्यक पर्ने सरल प्रश्नोत्तर तथा चरणबद्ध प्रक्रिया।
         </p>
       </div>
 

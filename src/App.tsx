@@ -244,7 +244,7 @@ export default function App() {
             <div className="space-y-2">
               <div className="flex items-center gap-2 text-white font-bold text-sm">
                 <Scale className="w-4 h-4 text-red-500" />
-                <span>नेपाल सरकार</span>
+                {/* <span>नेपाल सरकार</span> */}
               </div>
               <p className="text-slate-400 text-xs leading-relaxed">
                 सार्वजनिक वित्तीय व्यवस्थापन (PFM) प्रणाली सम्बन्धी जानकारीमूलक पेज।
@@ -301,10 +301,10 @@ export default function App() {
 
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-slate-500 text-[11px]">
             <div>
-              © २०८३ · आर्थिक कार्यविधि तथा वित्तीय उत्तरदायित्व कानूनी सूचना पोर्टल।
+              © २०८३ · आर्थिक कार्यविधि तथा वित्तीय उत्तरदायित्व सम्बन्धी कानूनको जानकारीमूलक पेज।
             </div>
             <div>
-              स्रोत: नेपाल कानुन आयोग तथा नेपाल राजपत्र
+              {/* स्रोत: नेपाल कानुन आयोग तथा नेपाल राजपत्र */}
             </div>
           </div>
         </div>
