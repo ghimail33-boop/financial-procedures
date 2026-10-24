@@ -98,10 +98,10 @@ export const ActSection: React.FC<ActSectionProps> = ({
         </div>
 
         {/* Chapter Tabs */}
-        <div className="mt-4 pt-4 border-t border-slate-100 flex items-center gap-1.5 overflow-x-auto scrollbar-none text-xs">
+        <div className="mt-4 pt-4 border-t border-slate-100 flex flex-wrap items-center gap-1.5 text-xs">
           <button
             onClick={() => setSelectedChapter('all')}
-            className={`px-3 py-1.5 rounded-lg font-medium transition whitespace-nowrap ${
+            className={`min-w-0 max-w-full whitespace-normal break-words px-3 py-1.5 text-left leading-snug rounded-lg font-medium transition ${
               selectedChapter === 'all'
                 ? 'bg-red-700 text-white shadow-2xs font-bold'
                 : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
@@ -113,7 +113,7 @@ export const ActSection: React.FC<ActSectionProps> = ({
             <button
               key={ch.chapterNo}
               onClick={() => setSelectedChapter(ch.chapterNo)}
-              className={`px-3 py-1.5 rounded-lg font-medium transition whitespace-nowrap ${
+              className={`min-w-0 max-w-full whitespace-normal break-words px-3 py-1.5 text-left leading-snug rounded-lg font-medium transition ${
                 selectedChapter === ch.chapterNo
                   ? 'bg-red-700 text-white shadow-2xs font-bold'
                   : 'bg-slate-100 text-slate-700 hover:bg-slate-200'

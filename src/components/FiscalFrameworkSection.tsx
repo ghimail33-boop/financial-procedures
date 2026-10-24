@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   ArrowRight,
+  ArrowDown,
   BookOpen,
   Building2,
   Coins,
   FileCheck,
   Landmark,
+  Search,
   Scale,
   ShieldCheck
 } from 'lucide-react';
@@ -18,6 +20,56 @@ interface ProvisionGroup {
   points: string[];
   icon: React.ElementType;
 }
+
+interface FiscalActSchedule {
+  number: string;
+  title: string;
+  reference: string;
+  taxes?: string[];
+  nonTaxes?: string[];
+  other?: string;
+  royalties?: { title: string; federal: string; province: string; local: string }[];
+}
+
+const fiscalActSchedules: FiscalActSchedule[] = [
+  {
+    number: '१',
+    title: 'नेपाल सरकारले लगाउन सक्ने कर तथा गैरकर',
+    reference: 'दफा ३ को उपदफा (१) सँग सम्बन्धित',
+    taxes: ['भन्सार महसुल', 'अन्तःशुल्क', 'मूल्य अभिवृद्धि कर', 'संस्थागत आयकर', 'व्यक्तिगत आयकर', 'पारिश्रमिक कर'],
+    nonTaxes: ['राहदानी शुल्क', 'भिसा शुल्क', 'पर्यटन दस्तुर', 'सेवा शुल्क तथा दस्तुर', 'जुवा/चिठ्ठा तथा क्यासिनो', 'दण्ड तथा जरिवाना'],
+    other: 'संघीय कानून र अन्य प्रचलित कानूनअनुसार लगाइने अन्य कर तथा गैरकर।'
+  },
+  {
+    number: '२',
+    title: 'प्रदेशले लगाउन सक्ने कर तथा गैरकर',
+    reference: 'दफा ३ को उपदफा (२) सँग सम्बन्धित',
+    taxes: ['घरजग्गा रजिष्ट्रेशन शुल्क', 'सवारी साधन कर', 'मनोरञ्जन कर', 'विज्ञापन कर', 'कृषि आयमा कर'],
+    nonTaxes: ['सेवा शुल्क तथा दस्तुर', 'पर्यटन शुल्क', 'दण्ड तथा जरिवाना'],
+    other: 'प्रदेशको अधिकारक्षेत्रका विषयमा प्रदेश कानून र अन्य प्रचलित कानूनअनुसार लगाइने अन्य कर तथा गैरकर।'
+  },
+  {
+    number: '३',
+    title: 'स्थानीय तहले लगाउन सक्ने कर तथा गैरकर',
+    reference: 'दफा ३ को उपदफा (३) सँग सम्बन्धित',
+    taxes: ['सम्पत्ति कर', 'घरबहाल कर', 'घरजग्गा रजिष्ट्रेशन शुल्क', 'सवारी साधन कर', 'भूमिकर (मालपोत)', 'मनोरञ्जन कर', 'विज्ञापन कर', 'व्यवसाय कर'],
+    nonTaxes: ['सेवा शुल्क तथा दस्तुर', 'पर्यटन शुल्क', 'दण्ड तथा जरिवाना'],
+    other: 'स्थानीय तहको अधिकारक्षेत्रका विषयमा स्थानीय कानून र अन्य प्रचलित कानूनअनुसार लगाइने अन्य कर तथा गैरकर।'
+  },
+  {
+    number: '४',
+    title: 'प्राकृतिक स्रोतको रोयल्टी बाँडफाँट',
+    reference: 'दफा ७ को उपदफा (२) सँग सम्बन्धित',
+    royalties: [
+      { title: 'पर्वतारोहण', federal: '५०%', province: '२५%', local: '२५%' },
+      { title: 'विद्युत्', federal: '५०%', province: '२५%', local: '२५%' },
+      { title: 'वन', federal: '५०%', province: '२५%', local: '२५%' },
+      { title: 'खानी तथा खनिज', federal: '५०%', province: '२५%', local: '२५%' },
+      { title: 'पानी तथा अन्य प्राकृतिक स्रोत', federal: '५०%', province: '२५%', local: '२५%' }
+    ],
+    other: 'स्रोतबाट प्रभावित प्रदेश, स्थानीय तह र जिल्ला समन्वय समितिलाई प्रभावको अनुपातमा न्यायोचित बाँडफाँट गर्न आयोगको सिफारिस लिइन्छ। बाँडफाँटको आधार प्रत्येक पाँच वर्षमा पुनरावलोकन गरी नेपाल राजपत्रमा सूचना प्रकाशित गरेर हेरफेर गर्न सकिन्छ।'
+  }
+];
 
 const constitutionProvisions: ProvisionGroup[] = [
   {
@@ -115,8 +167,8 @@ const fiscalActProvisions: ProvisionGroup[] = [
     summary: 'ऐनको प्रयोजन र यसमा प्रयोग हुने वित्तीय संघीयतासम्बन्धी मुख्य शब्दहरूको साझा अर्थ।',
     points: [
       'दफा १ ले ऐनको नाम र प्रारम्भ तोक्छ; दफा ५–७ को व्यवस्था २०७५ साउन १ देखि र अन्य व्यवस्था ऐन प्रारम्भ भएपछि लागू हुने उल्लेख छ।',
-      'दफा २ मा आयोग, संघीय/प्रदेश/स्थानीय सञ्चित कोष, योजना, घाटा बजेट, वित्तीय समानीकरण, सशर्त, समपूरक तथा विशेष अनुदानजस्ता पदावली परिभाषित छन्।',
-      'ऐनले संघ, प्रदेश र स्थानीय तहको राजस्व अधिकार, बाँडफाँट, अनुदान, ऋण, बजेट, सार्वजनिक खर्च र वित्तीय अनुशासनलाई एउटै अन्तरसरकारी ढाँचामा राख्छ।'
+      'दफा २ ले राष्ट्रिय प्राकृतिक स्रोत तथा वित्त आयोग, घाटा बजेट, प्रदेश/स्थानीय/संघीय सञ्चित कोष, मन्त्रालय, योजना, वित्तीय समानीकरण, विशेष, समपूरक र सशर्त अनुदान तथा संविधानको अर्थ स्पष्ट गर्छ।',
+      'ऐनले संघ, प्रदेश र स्थानीय तहको राजस्व अधिकार, बाँडफाँट, अनुदान, वैदेशिक सहायता तथा आन्तरिक ऋण, बजेट, सार्वजनिक खर्च र वित्तीय अनुशासनलाई एउटै अन्तरसरकारी ढाँचामा राख्छ।'
     ],
     icon: BookOpen
   },
@@ -125,10 +177,11 @@ const fiscalActProvisions: ProvisionGroup[] = [
     references: 'परिच्छेद २, दफा ३–५; अनुसूची १–३',
     summary: 'संघ, प्रदेश र स्थानीय तहले लगाउन सक्ने कर, गैरकर तथा रोयल्टी र साझा कर प्रशासनको व्यवस्था।',
     points: [
-      'दफा ३ र अनुसूची १: संघले भन्सार, अन्तःशुल्क, VAT, संस्थागत/व्यक्तिगत आयकर, पारिश्रमिक कर तथा राहदानी/भिसा/पर्यटन/सेवा शुल्क र दस्तुर, जुवा/क्यासिनोसम्बन्धी शुल्क, दण्ड/जरिवाना लगाउन सक्छ।',
-      'दफा ३ र अनुसूची २–३: प्रदेशले घरजग्गा रजिष्ट्रेशन, सवारी, मनोरञ्जन, विज्ञापन र कृषि आयकर तथा सेवा/पर्यटन शुल्क उठाउन सक्छ। स्थानीय तहले सम्पत्ति, घरबहाल, रजिष्ट्रेशन, सवारी, भूमिकर/मालपोत, मनोरञ्जन, विज्ञापन र व्यवसाय कर तथा सेवा/पर्यटन शुल्क उठाउन सक्छ। अन्य कर/गैरकर सम्बन्धित तहको कानून र अधिकारक्षेत्रअनुसार हुन्छ।',
+      'दफा ३ र अनुसूची १: संघले भन्सार महसुल, अन्तःशुल्क, मूल्य अभिवृद्धि कर, संस्थागत आयकर, व्यक्तिगत आयकर र पारिश्रमिक कर; राहदानी/भिसा शुल्क, पर्यटन दस्तुर, सेवा शुल्क/दस्तुर, जुवा/चिठ्ठा/क्यासिनोसम्बन्धी रकम तथा दण्ड/जरिवाना लगाउन सक्छ। संघीय कानूनअनुसार अन्य कर/गैरकर पनि लगाउन सकिन्छ।',
+      'दफा ३ र अनुसूची २: प्रदेशले घरजग्गा रजिष्ट्रेशन शुल्क, सवारी साधन कर, मनोरञ्जन कर, विज्ञापन कर र कृषि आयमा कर; सेवा शुल्क/दस्तुर, पर्यटन शुल्क तथा दण्ड/जरिवाना लगाउन सक्छ। प्रदेशको अधिकारक्षेत्रका अन्य कर/गैरकर प्रदेश कानूनअनुसार हुन्छन्।',
+      'दफा ३ र अनुसूची ३: स्थानीय तहले सम्पत्ति, घरबहाल, घरजग्गा रजिष्ट्रेशन, सवारी साधन, भूमिकर/मालपोत, मनोरञ्जन, विज्ञापन र व्यवसाय कर; सेवा शुल्क/दस्तुर, पर्यटन शुल्क तथा दण्ड/जरिवाना लगाउन सक्छ। स्थानीय अधिकारक्षेत्रका अन्य कर/गैरकर स्थानीय कानूनअनुसार हुन्छन्।',
       'गैरकरको दर वस्तु वा सेवाको लागत, सञ्चालन र सम्भार खर्चलाई आधार मानेर निर्धारण गर्नुपर्छ।',
-      'दफा ५ को एकल कर प्रशासन: सामान्य सवारी कर प्रदेशले लगाउने/उठाउने (टाँगा, रिक्सा, अटोरिक्सा र विद्युतीय रिक्सा स्थानीय); घरजग्गा रजिष्ट्रेशन र मनोरञ्जन करको दर प्रदेशले तोक्ने र स्थानीय तहले उठाउने; विज्ञापन कर स्थानीय तहले लगाउने/उठाउने। घरजग्गा/मनोरञ्जन/विज्ञापनबाट उठेको रकमको ६०% स्थानीय र ४०% प्रदेश सञ्चित कोषमा जान्छ।',
+      'दफा ५ को एकल कर प्रशासन: सामान्य सवारी कर प्रदेशले लगाउने/उठाउने; टाँगा, रिक्सा, अटोरिक्सा र विद्युतीय रिक्सा कर स्थानीय तहले लगाउने/उठाउने। घरजग्गा रजिष्ट्रेशन र मनोरञ्जन करको दर प्रदेशले तोक्छ र स्थानीय तहले उठाउँछ; विज्ञापन कर स्थानीय तहले लगाउने/उठाउने। घरजग्गा/मनोरञ्जन/विज्ञापनबाट उठेको रकममध्ये ६०% स्थानीय र ४०% प्रदेश सञ्चित कोषमा मासिक जम्मा हुन्छ।',
       'प्रदेश/स्थानीय करले राष्ट्रिय आर्थिक नीति, वस्तु/सेवाको आवागमन, पूँजी तथा श्रम बजार र छिमेकी प्रदेश/स्थानीय तहलाई प्रतिकूल असर पार्नु हुँदैन। प्राकृतिक स्रोतको रोयल्टी संघीय कानूनअनुसार संघले लगाउँछ र उठाउँछ।'
     ],
     icon: Scale
@@ -138,10 +191,10 @@ const fiscalActProvisions: ProvisionGroup[] = [
     references: 'परिच्छेद ३, दफा ६, ६क र ७; अनुसूची ४',
     summary: 'मूल्य अभिवृद्धि कर, आन्तरिक उत्पादनको अन्तःशुल्क, सवारी कर र रोयल्टी बाँडफाँटको प्रक्रिया।',
     points: [
-      'दफा ६: VAT र आन्तरिक उत्पादनको अन्तःशुल्क संघीय विभाज्य कोषमा जम्मा हुन्छ; ७०% संघ, १५% प्रदेश र १५% स्थानीय तहलाई छुट्याइन्छ। प्रदेश/स्थानीय तहबीचको हिस्सा आयोगको आधार र ढाँचाअनुसार बाँडिन्छ, रकम मासिक उपलब्ध हुन्छ र आर्थिक वर्षको अन्त्यमा हिसाब मिलान हुन्छ।',
+      'दफा ६: मूल्य अभिवृद्धि कर र आन्तरिक उत्पादनको अन्तःशुल्क संघीय विभाज्य कोषमा जम्मा हुन्छ; ७०% संघ, १५% प्रदेश र १५% स्थानीय तहलाई छुट्याइन्छ। प्रदेश/स्थानीय तहबीचको हिस्सा आयोगको आधार र ढाँचाअनुसार बाँडिन्छ, सम्बन्धित सञ्चित कोषमा मासिक उपलब्ध हुन्छ र आर्थिक वर्षको अन्त्यमा हिसाब मिलान हुन्छ।',
       'दफा ६क: प्रदेशले उठाएको सवारी साधन करमध्ये ६०% प्रदेश र ४०% स्थानीय तहलाई जान्छ; स्थानीय तहको हिस्सा आयोगको आधारमा बाँडेर मासिक स्थानीय सञ्चित कोषमा जम्मा गरिन्छ।',
-      'दफा ७ र अनुसूची ४: पर्वतारोहण, विद्युत्, वन, खानी तथा खनिज, पानी तथा अन्य प्राकृतिक स्रोतको रोयल्टी संघ ५०%, सम्बन्धित प्रदेश २५% र सम्बन्धित स्थानीय तह २५% का दरले बाँडिन्छ।',
-      'रोयल्टी बाँड्दा स्रोतबाट प्रभावित प्रदेश/स्थानीय तहलाई प्रभावको अनुपातमा न्यायोचित हिस्सा दिन आयोगको सिफारिस लिइन्छ; बाँडफाँटका आधार पाँच वर्षमा पुनरावलोकन गरी राजपत्रमा प्रकाशित गर्न सकिन्छ। रकम सम्बन्धित सञ्चित कोषमा जान्छ।'
+      'अनुसूची ४ ले पर्वतारोहण, विद्युत्, वन, खानी तथा खनिज, पानी तथा अन्य प्राकृतिक स्रोतका प्रत्येक शीर्षकमा ५०% संघ, २५% सम्बन्धित प्रदेश र २५% सम्बन्धित स्थानीय तह तोकेको छ। स्रोतबाट प्रभावित प्रदेश, स्थानीय तह र जिल्ला समन्वय समितिलाई प्रभावको अनुपातमा न्यायोचित हिस्सा दिन आयोगको सिफारिस लिइन्छ।',
+      'दफा ७ अनुसार बाँडफाँटसम्बन्धी आधार आयोगको सिफारिसमा नेपाल सरकारले प्रत्येक पाँच वर्षमा पुनरावलोकन गरी नेपाल राजपत्रमा सूचना प्रकाशित गरेर हेरफेर गर्न सक्छ।'
     ],
     icon: Coins
   },
@@ -164,10 +217,11 @@ const fiscalActProvisions: ProvisionGroup[] = [
     summary: 'वैदेशिक सहायता र आन्तरिक ऋणको नियन्त्रण, तीनवर्षे खर्च संरचना तथा तहगत बजेट तर्जुमा प्रक्रिया।',
     points: [
       'दफा १२–१३, वैदेशिक सहायता: अनुदान/ऋण लिने अधिकार संघमा छ; प्रदेश/स्थानीय तहले संघको पूर्वस्वीकृतिबिना वैदेशिक सहायता लिन वा त्यसबाट कार्यक्रम चलाउन पाउँदैन। सहायता पारदर्शी, परिणाममुखी र राष्ट्रिय प्राथमिकताका क्षेत्रमा—पूर्वाधार, शिक्षा/स्वास्थ्य/मानव विकास, उत्पादनशीलता, रोजगारी/क्षमता, विपद्, विज्ञान/प्रविधि, वातावरण/जलवायु, सार्वजनिक–निजी साझेदारी तथा तोकिएका क्षमता-अभावका क्षेत्रमा—उपयोग गर्नुपर्छ।',
-      'दफा १४–१५, आन्तरिक ऋण/सरकारी ऋण: तीनै तहले आयोगले सिफारिस गरेको सीमाभित्र ऋण लिन सक्छन्; प्रदेश/स्थानीय तहले संघको सहमति र परियोजना, प्रतिफल तथा भुक्तानी योजनासहित प्रस्ताव दिनुपर्छ। संघले तल्ला तहलाई ऋण दिन र सम्झौताको अवधि नाघे अनुदानबाट असुल गर्न सक्छ।',
-      'दफा १६–१७: प्रत्येक तहले चालु, पूँजीगत र वित्तीय व्यवस्थासहित सार्वजनिक खर्च अनुमान र आगामी तीन वर्षको मध्यमकालीन खर्च संरचना बनाउँछ। संरचनामा उद्देश्य, लागत/स्रोत, सम्भाव्यता, अपेक्षित प्रतिफल, खर्च रणनीति र चालु योजनाको प्रगति/लक्ष्य समेटिन्छ।',
-      'दफा १८: प्रदेश/स्थानीय तहले पुस मसान्तभित्र आगामी वर्षको खर्च, आफ्नै राजस्व, बाँडफाँट, अनुदान र घाटा पूर्तिको प्रक्षेपण संघीय अर्थ मन्त्रालयलाई पठाउँछन्। संघले फागुन मसान्तभित्र प्रदेश/स्थानीय तहलाई आगामी वर्षको बाँडफाँट र समानीकरण अनुदानको अनुमानित स्रोत बताउँछ; प्रदेशले चैत मसान्तभित्र स्थानीय तहलाई वित्तीय हस्तान्तरणको अनुमान दिन्छ।',
-      'दफा १९: कर/गैरकर प्रस्तावमा आवश्यकता, औचित्य र प्रभाव खुलाउनुपर्छ तथा दरमा सम्भव भएसम्म तहहरूबीच तादात्म्य राख्नुपर्छ।'
+      'दफा १४: संघ, प्रदेश र स्थानीय तहले आयोगले सिफारिस गरेको सीमाभित्र आन्तरिक ऋण लिन सक्छन्; प्रदेश/स्थानीय तहले पहिले संघको सहमति लिनुपर्छ। ऋण लिन खोजिएको योजना, अपेक्षित प्रतिफल/उपलब्धि, भुक्तानी योजना र ऋणदाताको विवरणसहित मन्त्रालयमा प्रस्ताव पेश गरी कार्यान्वयनयोग्य स्वीकृति लिनुपर्छ। संघ र प्रदेशले प्रचलित कानूनअनुसार ऋणपत्र जारी गर्न सक्छन्।',
+      'दफा १५: संघले प्रदेश वा स्थानीय तहलाई ऋण दिन सक्छ। ऋणको उपयोग, भुक्तानीको तरिका र समयसीमा खुलाएर अनुरोध गरेपछि स्वीकृत ऋणका लागि मन्त्रालयले सम्झौता गर्छ; सम्झौताको अवधिमा नतिरेमा संघले उपलब्ध गराउने अनुदानबाट असुल गर्न सक्छ।',
+      'दफा १६–१७: प्रत्येक तहले आफ्नो कार्यक्षेत्रको वार्षिक सार्वजनिक खर्च अनुमानमा चालु, पूँजीगत र वित्तीय व्यवस्थाको रकम छुट्याउँछ र आगामी तीन वर्षको प्रक्षेपणसहित मध्यमकालीन खर्च संरचना बनाउँछ। यसमा योजनाको उद्देश्य, आवश्यकता/सम्भाव्यता, कार्यान्वयन वर्ष, स्रोत, लागत, अपेक्षित प्रतिफल र चालु योजनाको प्रगति/लक्ष्य खुलाइन्छ।',
+      'दफा १८: प्रदेश/स्थानीय तहले पुस मसान्तभित्र आगामी वर्षको खर्च, आफ्नै राजस्व, राजस्व बाँडफाँट, अनुदान र घाटा पूर्तिको प्रक्षेपण संघीय अर्थ मन्त्रालयलाई पठाउँछन्। संघले फागुन मसान्तभित्र बाँडफाँट र समानीकरण अनुदानको अनुमानित स्रोत बताउँछ; प्रदेशले चैत मसान्तभित्र स्थानीय तहलाई वित्तीय हस्तान्तरणको अनुमान दिन्छ।',
+      'दफा १९: कर वा गैरकर प्रस्ताव गर्दा त्यसको आवश्यकता, औचित्य र त्यसबाट पर्ने प्रभाव खुलाउनुपर्छ; करको दर निर्धारण गर्दा सम्भव भएसम्म संघ, प्रदेश र स्थानीय तहबीच तादात्म्य कायम गर्नुपर्छ।'
     ],
     icon: BookOpen
   },
@@ -193,9 +247,10 @@ const fiscalActProvisions: ProvisionGroup[] = [
     points: [
       'दफा २५: प्रदेश/स्थानीय तहले आर्थिक तथा वित्तीय नीति बनाउँदा संघीय नीति अनुशरण गर्नुपर्छ। दफा २६: कानूनले अन्यथा भनेबाहेक सबै आय सम्बन्धित सञ्चित कोषमा दाखिला हुन्छ।',
       'दफा २७–२९: कोषमाथि भारित खर्चबाहेक स्वीकृत बजेटबिना खर्च गर्न पाइँदैन; अनुदान तोकिएको प्रयोजनमा मात्र खर्च हुन्छ; पूँजीगत खर्चलाई चालु खर्चमा रकमान्तर गर्न पाइँदैन।',
-      'दफा ३०: वित्तीय काम पारदर्शी हुनुपर्छ; आय–व्ययको लेखा परीक्षणपछि विवरण १५ दिनभित्र सार्वजनिक गरिन्छ; बजेट कार्यान्वयनको वार्षिक समीक्षा कार्तिक मसान्तभित्र र संघीय एकीकृत आर्थिक विवरण पुस मसान्तभित्र सार्वजनिक हुन्छ।',
-      'दफा ३१–३२: आय–व्ययको वर्गीकरण/लेखाङ्कन स्वीकृत मानकअनुसार हुन्छ। तीनै तहले आवधिक विवरण तयार र पेश गर्छन्; स्थानीय तहले त्रैमासिक विवरण १५ दिनभित्र मन्त्रालय/प्रदेशलाई र प्रदेशले स्थानीय विवरणसमेत समेटी ३० दिनभित्र मन्त्रालयलाई पठाउँछ। दोस्रो त्रैमासिक विवरणमा तेस्रोको अनुमानसमेत हुन्छ।',
-      'निर्धारित समयमा विवरण नपठाए संघीय सरकारले प्रदेश/स्थानीय तहलाई उपलब्ध गराउने अनुदान रोक्का गर्न सक्छ।'
+      'दफा ३०: वित्तीय व्यवस्थापन पारदर्शी हुनुपर्छ। आय–व्यय विवरणको कानूनबमोजिम लेखापरीक्षणपछि १५ दिनभित्र विवरण सार्वजनिक गरिन्छ; बजेट कार्यान्वयनको वार्षिक समीक्षा कार्तिक मसान्तभित्र र तीनै तहको विवरणमा आधारित संघीय एकीकृत आर्थिक विवरण पुस मसान्तभित्र सार्वजनिक हुन्छ।',
+      'दफा ३१: आय–व्ययको वर्गीकरण र लेखाङ्कन महालेखा नियन्त्रक कार्यालयको सिफारिसमा महालेखापरीक्षकको कार्यालयबाट स्वीकृत भएअनुसार गर्नुपर्छ।',
+      'दफा ३२: संघ, प्रदेश र स्थानीय तहले स्वीकृत ढाँचामा आवधिक आय–व्यय विवरण बनाउँछन्। स्थानीय तहले त्रैमासिक विवरण अवधि समाप्त भएको १५ दिनभित्र मन्त्रालय र प्रदेशमा पठाउँछ; प्रदेशले स्थानीय तहका विवरणसमेत समेटी ३० दिनभित्र मन्त्रालयमा पठाउँछ। दोस्रो त्रैमासिक विवरणमा तेस्रो त्रैमासिकको सम्भावित आय–व्यय अनुमान पनि समावेश हुन्छ।',
+      'तोकिएको समयमा विवरण नपठाएमा नेपाल सरकारले प्रदेश वा स्थानीय तहलाई उपलब्ध गराउने अनुदान रोक्का गर्न सक्छ।'
     ],
     icon: ShieldCheck
   },
@@ -204,15 +259,19 @@ const fiscalActProvisions: ProvisionGroup[] = [
     references: 'परिच्छेद ९, दफा ३३–३९',
     summary: 'अन्तरसरकारी वित्त परिषद्, समन्वय, संक्रमणकालीन व्यवस्था, कार्यान्वयन मापदण्ड र राजपत्र प्रकाशन।',
     points: [
-      'दफा ३३: अर्थमन्त्रीको संयोजकत्वमा प्रदेशका अर्थमन्त्री, प्रत्येक प्रदेशबाट सिफारिस हुने दुई स्थानीय प्रतिनिधि (कम्तीमा एक महिला), कम्तीमा एक महिलासहित तीन वित्त विज्ञ र अर्थ मन्त्रालयका सचिव सदस्य-सचिव रहने अन्तरसरकारी वित्त परिषद् छ। विज्ञ सदस्यको पदावधि तीन वर्ष हुन्छ; परिषद् कम्तीमा वर्षमा एकपटक बैठक बस्छ।',
-      'दफा ३४–३६: संघले आवश्यकताअनुसार प्रदेश/स्थानीय तहलाई वित्तीय विषयमा निर्देशन दिन सक्छ; प्रदेशहरू परस्पर सहयोग र समान व्यवहार गर्छन्; तहहरूले राजस्व उठाउने, दर मिलाउने, सूचना आदानप्रदान र एकद्वार प्रशासनमा समन्वय गर्न सक्छन्।',
-      'दफा ३७: प्रदेश सञ्चित कोष सञ्चालन नहुँदासम्म प्रदेशको राजस्व संघीय कोषमा दाखिला/व्यवस्थापन गर्ने तथा स्थानीय सभाले कानून नबनाएसम्म प्रचलित कानूनअनुसार राजस्व उठाउने संक्रमणकालीन व्यवस्था।',
-      'दफा ३८–३९: ऐन कार्यान्वयनका मापदण्ड नेपाल सरकारले बनाउन सक्छ; आय–व्यय वर्गीकरण, ढाँचा र मापदण्ड नेपाल राजपत्रमा प्रकाशित गर्नुपर्छ।',
-      'अनुसूची १–३ ले संघ/प्रदेश/स्थानीय तहका कर तथा गैरकर शीर्षकहरू र अनुसूची ४ ले प्राकृतिक स्रोतको रोयल्टी बाँडफाँट तथा प्रभावित क्षेत्रको न्यायोचित वितरणको आधार स्पष्ट गर्छ।'
+      'दफा ३३: अन्तरसरकारी परामर्श/समन्वयका लागि अर्थमन्त्री संयोजक रहने परिषद्मा प्रदेशका अर्थमन्त्री, प्रत्येक प्रदेशबाट एक महिलासहित दुई स्थानीय प्रतिनिधि, मन्त्रालयबाट मनोनीत कम्तीमा एक महिलासहित तीन वित्त विज्ञ र अर्थ मन्त्रालयका सचिव सदस्य-सचिव हुन्छन्। मनोनीत विज्ञको पदावधि तीन वर्ष हुन्छ; परिषद् कम्तीमा वर्षमा एकपटक बस्छ।',
+      'दफा ३४: संविधानको धारा २३२ को अधीनमा रही नेपाल सरकारले वित्तीय विषयमा प्रदेश वा स्थानीय तहलाई आवश्यक निर्देशन दिन सक्छ; त्यस्तो निर्देशन पालना गर्नुपर्छ।',
+      'दफा ३५–३६: प्रदेशले अर्को प्रदेशको वित्तसम्बन्धी कानून, निर्णय वा आदेश कार्यान्वयनमा सहयोग गर्छ र वित्तीय विषयमा परस्पर समान व्यवहार गर्छन्। साझा चासोका विषयमा प्रदेशहरू तथा तीनै तहले समन्वय/सहयोग गरी राजस्व प्रशासनमा सूचना आदानप्रदान र समन्वय गर्नुपर्छ।',
+      'दफा ३७: प्रदेश सञ्चित कोष सञ्चालनमा नआउँदासम्म प्रदेशको राजस्व संघीय सञ्चित कोषमा दाखिला गरी नेपाल सरकारले व्यवस्थापन गर्छ; स्थानीय कानून नबनेसम्म स्थानीय तहले प्रचलित कानूनबमोजिम राजस्व उठाउँछ।',
+      'दफा ३८–३९: ऐन कार्यान्वयनका लागि नेपाल सरकारले आवश्यक मापदण्ड बनाई लागू गर्न सक्छ; मन्त्रालयले आय–व्यय वर्गीकरण, ढाँचा र तोकिएका मापदण्ड नेपाल राजपत्रमा प्रकाशित गर्छ।',
+      'अनुसूची १–३ ले तीनै तहका कर/गैरकरका शीर्षक र अधिकारक्षेत्र तोक्छन्; अनुसूची ४ ले पाँच प्राकृतिक स्रोतको रोयल्टी ५०% संघ, २५% प्रदेश र २५% स्थानीय तहमा बाँड्ने तथा प्रभावित क्षेत्रको न्यायोचित बाँडफाँटको व्यवस्था गर्छ।'
     ],
     icon: FileCheck
   }
 ];
+
+const normalizeSearchText = (value: string) =>
+  value.toLocaleLowerCase().replace(/[०-९]/g, (digit) => String(digit.charCodeAt(0) - 0x0966));
 
 interface FiscalFrameworkSectionProps {
   onOpenOfficialPdfs: () => void;
@@ -220,7 +279,22 @@ interface FiscalFrameworkSectionProps {
 
 export const FiscalFrameworkSection: React.FC<FiscalFrameworkSectionProps> = ({
   onOpenOfficialPdfs
-}) => (
+}) => {
+  const [actSearch, setActSearch] = useState('');
+  const [selectedActTopic, setSelectedActTopic] = useState('all');
+  const normalizedQuery = normalizeSearchText(actSearch.trim());
+  const visibleActProvisions = fiscalActProvisions.filter((provision) => {
+    const matchesTopic = selectedActTopic === 'all' || provision.title === selectedActTopic;
+    const searchableText = normalizeSearchText([
+      provision.title,
+      provision.references,
+      provision.summary,
+      ...provision.points
+    ].join(' '));
+    return matchesTopic && (!normalizedQuery || searchableText.includes(normalizedQuery));
+  });
+
+  return (
   <div className="space-y-8 pb-10">
     <section className="relative isolate overflow-hidden rounded-2xl bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 p-6 text-white shadow-lg sm:p-8">
       <div className="pointer-events-none absolute inset-y-0 right-0 w-full sm:w-[62%]">
@@ -242,20 +316,29 @@ export const FiscalFrameworkSection: React.FC<FiscalFrameworkSectionProps> = ({
           <h1 className="text-2xl font-extrabold sm:text-3xl">संविधान तथा अन्तरसरकारी वित्त</h1>
           <p className="text-sm leading-relaxed text-slate-300">
             नेपालको संविधान, २०७२ र अन्तर–सरकारी वित्त व्यवस्थापन ऐन, २०७४ ले तीनै तहका वित्तीय अधिकार,
-            राजस्व बाँडफाँट, अनुदान, बजेट, ऋण र जवाफदेहिताको आधार तय गर्छन्। तलका बुँदा विषयगत सार हुन्;
-            संविधानका सार्वजनिक वित्तसँग सम्बन्धित धारा ५०, ५१, ५७, ५९–६०, ११५–१२५, २०३–२१३, २२८–२३०, २४०–२४१ र २५०–२५१ तथा ऐनका दफा १–३९ का
-            सार्वजनिक वित्तसँग सम्बन्धित मुख्य व्यवस्था र अनुसूचीहरू समेटिएका छन्। कानूनी प्रयोजनमा मूल दस्तावेज
+            राजस्व बाँडफाँट, अनुदान, बजेट, ऋण र जवाफदेहिताको आधार तय गर्छन्। यहाँ संविधानका सार्वजनिक वित्तसँग
+            सम्बन्धित धारा ५०, ५१, ५७, ५९–६०, ११५–१२५, २०३–२१३, २२८–२३०, २४०–२४१ र २५०–२५१ तथा ऐनका
+            दफा १–३९ (दफा ६कसहित) र चारै अनुसूचीको विषयगत सार समेटिएको छ। कानूनी प्रयोजनमा मूल दस्तावेज
             र पछिल्ला संशोधन हेर्नुहोस्।
           </p>
-          <button
-            type="button"
-            onClick={onOpenOfficialPdfs}
-            className="mt-2 inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-bold text-slate-900 transition hover:bg-blue-50"
-          >
-            <BookOpen className="h-4 w-4" />
-            मूल कानून PDF हेर्नुहोस्
-            <ArrowRight className="h-4 w-4" />
-          </button>
+          <div className="mt-2 flex flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={onOpenOfficialPdfs}
+              className="inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-bold text-slate-900 transition hover:bg-blue-50"
+            >
+              <BookOpen className="h-4 w-4" />
+              मूल कानून PDF हेर्नुहोस्
+              <ArrowRight className="h-4 w-4" />
+            </button>
+            <a
+              href="#fiscal-act-provisions"
+              className="inline-flex items-center gap-2 rounded-lg border border-white/30 bg-white/10 px-4 py-2 text-sm font-bold text-white transition hover:bg-white/20"
+            >
+              ऐनका प्रावधानहरूको सारांश
+              <ArrowDown className="h-4 w-4" />
+            </a>
+          </div>
         </div>
       </div>
     </section>
@@ -272,27 +355,93 @@ export const FiscalFrameworkSection: React.FC<FiscalFrameworkSectionProps> = ({
       </div>
     </div>
 
-    <div className="space-y-4">
+    <div id="fiscal-act-provisions" className="scroll-mt-24 space-y-4">
       <div>
         <p className="text-xs font-bold uppercase tracking-wider text-emerald-700">अन्तर–सरकारी वित्त व्यवस्थापन ऐन, २०७४</p>
-        <h2 className="mt-1 text-xl font-bold text-slate-900">वित्त व्यवस्थापनका कार्यान्वयन नियम</h2>
+        <h2 className="mt-1 text-xl font-bold text-slate-900">दफा १–३९ र अनुसूची १–४: विषयगत व्यवस्था</h2>
+        <p className="mt-1 text-sm text-slate-600">दफा नम्बर, विषय वा विवरणबाट खोज्नुहोस् वा विषय छानेर सम्बन्धित व्यवस्था हेर्नुहोस्।</p>
       </div>
+
+      <div className="grid gap-3 sm:grid-cols-3">
+        <div className="rounded-xl border border-emerald-100 bg-emerald-50 p-4">
+          <p className="text-xs font-semibold text-emerald-800">कानूनी प्रावधान</p>
+          <p className="mt-1 text-lg font-bold text-emerald-950">३९ दफा</p>
+        </div>
+        <div className="rounded-xl border border-blue-100 bg-blue-50 p-4">
+          <p className="text-xs font-semibold text-blue-800">विषयगत समूह</p>
+          <p className="mt-1 text-lg font-bold text-blue-950">{fiscalActProvisions.length} समूह</p>
+        </div>
+        <div className="rounded-xl border border-violet-100 bg-violet-50 p-4">
+          <p className="text-xs font-semibold text-violet-800">अनुसूची</p>
+          <p className="mt-1 text-lg font-bold text-violet-950">कर अधिकार र रोयल्टी बाँडफाँट</p>
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:flex-row">
+        <label className="relative min-w-0 flex-1">
+          <span className="sr-only">ऐनका व्यवस्था खोज्नुहोस्</span>
+          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+          <input
+            type="search"
+            value={actSearch}
+            onChange={(event) => setActSearch(event.target.value)}
+            placeholder="दफा, शीर्षक वा विषय खोज्नुहोस्"
+            className="w-full rounded-lg border border-slate-300 py-2 pl-9 pr-3 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100"
+          />
+        </label>
+        <label className="sm:w-72">
+          <span className="sr-only">ऐनको विषय छान्नुहोस्</span>
+          <select
+            value={selectedActTopic}
+            onChange={(event) => setSelectedActTopic(event.target.value)}
+            className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-800 outline-none transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100"
+          >
+            <option value="all">सबै विषय</option>
+            {fiscalActProvisions.map((provision) => (
+              <option key={provision.title} value={provision.title}>{provision.title}</option>
+            ))}
+          </select>
+        </label>
+      </div>
+      <p className="text-sm text-slate-500" aria-live="polite">
+        {visibleActProvisions.length} / {fiscalActProvisions.length} विषय देखाइँदै
+      </p>
       <div className="grid gap-4 lg:grid-cols-2">
-        {fiscalActProvisions.map((provision) => (
-          <ProvisionCard key={provision.title} provision={provision} />
-        ))}
+        {visibleActProvisions.length > 0 ? (
+          visibleActProvisions.map((provision) => (
+            <ProvisionCard key={provision.title} provision={provision} />
+          ))
+        ) : (
+          <div className="rounded-xl border border-dashed border-slate-300 bg-white p-8 text-center text-sm text-slate-600 lg:col-span-2">
+            यो खोज वा छानिएको विषयसँग मिल्ने व्यवस्था भेटिएन। खोज शब्द परिवर्तन गर्नुहोस् वा सबै विषय छान्नुहोस्।
+          </div>
+        )}
       </div>
     </div>
+
+    <section aria-labelledby="fiscal-act-schedules-heading" className="scroll-mt-24 space-y-4">
+      <div>
+        <p className="text-xs font-bold uppercase tracking-wider text-violet-700">अन्तर–सरकारी वित्त व्यवस्थापन ऐन, २०७४</p>
+        <h2 id="fiscal-act-schedules-heading" className="mt-1 text-xl font-bold text-slate-900">ऐनका अनुसूचीहरू (१–४)</h2>
+        <p className="mt-1 text-sm text-slate-600">कर तथा गैरकर अधिकार र प्राकृतिक स्रोतको रोयल्टी बाँडफाँटका अनुसूचीहरू यहाँ सिधै हेर्नुहोस्।</p>
+      </div>
+      <div className="grid gap-4 lg:grid-cols-2">
+        {fiscalActSchedules.map((schedule) => (
+          <FiscalActScheduleCard key={schedule.number} schedule={schedule} />
+        ))}
+      </div>
+    </section>
 
     <div className="flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-950">
       <BookOpen className="mt-0.5 h-5 w-5 shrink-0 text-amber-700" />
       <p>
-        यो पोर्टल जानकारीमूलक सार हो, आधिकारिक कानूनी पाठको विकल्प होइन। संविधानका अनुसूची, ऐनका अनुसूची
-        तथा संशोधनसहितको पूरा पाठका लागि <button type="button" onClick={onOpenOfficialPdfs} className="font-bold underline underline-offset-2">मूल कानून PDF</button> हेर्नुहोस्।
+        यो पोर्टल जानकारीमूलक सार हो, आधिकारिक कानूनी पाठको विकल्प होइन। संविधानिक तथा कानूनी प्रावधानहरु तथा ऐनका अनुसूची
+        सहितको पूरा पाठका लागि <button type="button" onClick={onOpenOfficialPdfs} className="font-bold underline underline-offset-2">मूल कानून PDF</button> हेर्नुहोस्।
       </p>
     </div>
   </div>
-);
+  );
+};
 
 const ProvisionCard: React.FC<{ provision: ProvisionGroup }> = ({ provision }) => {
   const Icon = provision.icon;
@@ -319,3 +468,71 @@ const ProvisionCard: React.FC<{ provision: ProvisionGroup }> = ({ provision }) =
     </article>
   );
 };
+
+const FiscalActScheduleCard: React.FC<{ schedule: FiscalActSchedule }> = ({ schedule }) => (
+  <article className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+    <div className="flex items-start gap-3">
+      <span className="shrink-0 rounded-lg bg-violet-50 px-3 py-2 text-sm font-extrabold text-violet-800">
+        अनुसूची {schedule.number}
+      </span>
+      <div className="min-w-0">
+        <h3 className="font-bold text-slate-900">{schedule.title}</h3>
+        <p className="mt-1 text-xs font-semibold text-violet-700">{schedule.reference}</p>
+      </div>
+    </div>
+    {schedule.taxes && (
+      <div className="mt-4">
+        <h4 className="text-sm font-bold text-slate-800">कर</h4>
+        <ul className="mt-2 grid gap-2 sm:grid-cols-2">
+          {schedule.taxes.map((item) => (
+            <li key={item} className="flex gap-2 text-sm leading-relaxed text-slate-700">
+              <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-500" />
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+    {schedule.nonTaxes && (
+      <div className="mt-4">
+        <h4 className="text-sm font-bold text-slate-800">गैरकर</h4>
+        <ul className="mt-2 grid gap-2 sm:grid-cols-2">
+          {schedule.nonTaxes.map((item) => (
+            <li key={item} className="flex gap-2 text-sm leading-relaxed text-slate-700">
+              <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500" />
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+    {schedule.royalties && (
+      <div className="mt-4 overflow-x-auto">
+        <table className="w-full min-w-[28rem] border-collapse text-left text-sm">
+          <caption className="mb-2 text-left text-xs text-slate-500">प्राकृतिक स्रोतअनुसार रोयल्टी बाँडफाँट प्रतिशत</caption>
+          <thead>
+            <tr className="border-y border-slate-200 bg-slate-50 text-xs text-slate-700">
+              <th scope="col" className="px-3 py-2 font-bold">रोयल्टीको शीर्षक</th>
+              <th scope="col" className="px-3 py-2 font-bold">नेपाल सरकार</th>
+              <th scope="col" className="px-3 py-2 font-bold">प्रदेश</th>
+              <th scope="col" className="px-3 py-2 font-bold">स्थानीय तह</th>
+            </tr>
+          </thead>
+          <tbody>
+            {schedule.royalties.map((royalty) => (
+              <tr key={royalty.title} className="border-b border-slate-100 text-slate-700">
+                <th scope="row" className="px-3 py-2 font-medium">{royalty.title}</th>
+                <td className="px-3 py-2">{royalty.federal}</td>
+                <td className="px-3 py-2">{royalty.province}</td>
+                <td className="px-3 py-2">{royalty.local}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    )}
+    {schedule.other && (
+      <p className="mt-4 rounded-lg bg-slate-50 p-3 text-sm leading-relaxed text-slate-600">{schedule.other}</p>
+    )}
+  </article>
+);
