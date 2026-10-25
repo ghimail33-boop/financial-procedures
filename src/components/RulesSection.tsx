@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { Search, BookOpen, Bookmark, BookmarkCheck, Copy, Check, ChevronDown, ChevronUp, ArrowRight, FileSpreadsheet } from 'lucide-react';
-import { RULES_DATA, RULE_CHAPTERS, NiyamItem } from '../data/rulesData';
+import { RULES_DATA, RULE_CHAPTERS, RULES_METADATA, NiyamItem } from '../data/rulesData';
 
 interface RulesSectionProps {
   onOpenNiyamModal: (niyam: NiyamItem) => void;
@@ -8,6 +8,7 @@ interface RulesSectionProps {
   onToggleBookmark: (id: string) => void;
   onNavigateToSchedule?: (schedNo: number) => void;
   onNavigateToDafa?: (dafaNo: string) => void;
+  requestedRuleNo?: string | null;
 }
 
 export const RulesSection: React.FC<RulesSectionProps> = ({
@@ -15,15 +16,48 @@ export const RulesSection: React.FC<RulesSectionProps> = ({
   bookmarks,
   onToggleBookmark,
   onNavigateToSchedule,
-  onNavigateToDafa
+  onNavigateToDafa,
+  requestedRuleNo
 }) => {
   const [selectedChapter, setSelectedChapter] = useState<number | 'all'>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [expandedNiyams, setExpandedNiyams] = useState<Record<number, boolean>>({});
   const [copiedId, setCopiedId] = useState<number | null>(null);
 
+  React.useEffect(() => {
+    if (!requestedRuleNo) return;
+
+    const toArabicNumerals = (value: string) =>
+      value.replace(/[०-९]/g, (digit) => String(digit.charCodeAt(0) - 0x0966));
+    const ruleNumber = Number(toArabicNumerals(requestedRuleNo));
+    const chapter = RULE_CHAPTERS.find((item) => {
+      const range = item.niyamRange.match(/[०-९0-9]+/g);
+      if (!range || range.length < 2) return false;
+      const [start, end] = range.map((part) => Number(toArabicNumerals(part)));
+      return ruleNumber >= start && ruleNumber <= end;
+    });
+
+    setSearchQuery('');
+    if (chapter) setSelectedChapter(chapter.chapterNo);
+  }, [requestedRuleNo]);
+
   const toggleExpand = (id: number) => {
     setExpandedNiyams((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
+
+  const selectChapter = (chapterNo: number | 'all') => {
+    setSelectedChapter(chapterNo);
+    setSearchQuery('');
+    if (chapterNo === 'all') return;
+
+    setExpandedNiyams((prev) => ({
+      ...prev,
+      ...Object.fromEntries(
+        RULES_DATA
+          .filter((niyam) => niyam.chapterNo === chapterNo)
+          .map((niyam) => [niyam.id, true])
+      )
+    }));
   };
 
   const handleCopy = (niyam: NiyamItem, e: React.MouseEvent) => {
@@ -49,6 +83,8 @@ export const RulesSection: React.FC<RulesSectionProps> = ({
       return matchesChapter && matchesQuery;
     });
   }, [selectedChapter, searchQuery]);
+  const selectedChapterInfo = RULE_CHAPTERS.find((chapter) => chapter.chapterNo === selectedChapter);
+  const selectedChapterRuleCount = RULES_DATA.filter((niyam) => niyam.chapterNo === selectedChapter).length;
 
   return (
     <div className="space-y-6 pb-12">
@@ -65,7 +101,7 @@ export const RulesSection: React.FC<RulesSectionProps> = ({
               आर्थिक कार्यविधि तथा वित्तीय उत्तरदायित्व नियमावली, २०७७
             </h2>
             <p className="text-sm text-slate-600 mt-1">
-              एकल खाता कोष (TSA), असार मसान्तभन्दा ७ दिन अगावै निकासा बन्द, पेश्कीमा १०% ब्याज, धरौटी, लिलाम बिक्री र १९ अनुसूची ढाँचाहरू।
+              एकल खाता कोष (TSA), असार मसान्तभन्दा ७ दिन अगावै निकासा बन्द, पेश्कीमा १०% ब्याज, धरौटी, लिलाम बिक्री र १९ अनुसूची।
             </p>
           </div>
 
@@ -99,7 +135,7 @@ export const RulesSection: React.FC<RulesSectionProps> = ({
         {/* Chapter Tabs */}
         <div className="mt-4 pt-4 border-t border-slate-100 flex flex-wrap items-center gap-1.5 text-xs">
           <button
-            onClick={() => setSelectedChapter('all')}
+            onClick={() => selectChapter('all')}
             className={`min-w-0 max-w-full whitespace-normal break-words px-3 py-1.5 text-left leading-snug rounded-lg font-medium transition ${
               selectedChapter === 'all'
                 ? 'bg-emerald-700 text-white shadow-2xs font-bold'
@@ -111,7 +147,7 @@ export const RulesSection: React.FC<RulesSectionProps> = ({
           {RULE_CHAPTERS.map((ch) => (
             <button
               key={ch.chapterNo}
-              onClick={() => setSelectedChapter(ch.chapterNo)}
+              onClick={() => selectChapter(ch.chapterNo)}
               className={`min-w-0 max-w-full whitespace-normal break-words px-3 py-1.5 text-left leading-snug rounded-lg font-medium transition ${
                 selectedChapter === ch.chapterNo
                   ? 'bg-emerald-700 text-white shadow-2xs font-bold'
@@ -125,13 +161,73 @@ export const RulesSection: React.FC<RulesSectionProps> = ({
         </div>
       </div>
 
+      {selectedChapterInfo && (
+        <section className="rounded-xl border border-emerald-200 bg-emerald-50/70 p-4" aria-live="polite">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <p className="text-xs font-bold text-emerald-800">
+                परिच्छेद {selectedChapterInfo.chapterNo} · {selectedChapterInfo.niyamRange}
+              </p>
+              <h3 className="mt-1 font-bold text-slate-900">{selectedChapterInfo.title}</h3>
+              <p className="mt-1 text-sm leading-relaxed text-slate-700">{selectedChapterInfo.description}</p>
+              {selectedChapterRuleCount === 0 && (
+                <p className="mt-2 text-xs text-amber-800">
+                  यस परिच्छेदका विस्तृत नियमहरू डिजिटल सूचीमा उपलब्ध छैनन्। आधिकारिक नियमावली PDF मा हेर्नुहोस्।
+                </p>
+              )}
+            </div>
+            <a
+              href={RULES_METADATA.pdfPath}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex shrink-0 items-center gap-2 self-start rounded-lg border border-emerald-300 bg-white px-3 py-2 text-xs font-bold text-emerald-800 transition hover:bg-emerald-100"
+            >
+              मूल PDF हेर्नुहोस्
+              <ArrowRight className="h-3.5 w-3.5" />
+            </a>
+          </div>
+        </section>
+      )}
+
+      {requestedRuleNo && (
+        <section className="rounded-xl border border-blue-200 bg-blue-50 p-4" aria-live="polite">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="text-sm font-bold text-blue-950">नियम {requestedRuleNo} सम्बन्धी व्यवस्था</p>
+              <p className="mt-1 text-sm leading-relaxed text-blue-900">
+                {selectedChapterInfo
+                  ? `सम्बन्धित परिच्छेद ${selectedChapterInfo.chapterNo} का नियमहरू तल देखाइएका छन्। नियम ${requestedRuleNo} को छुट्टै विस्तृत पाठका लागि आधिकारिक नियमावली हेर्नुहोस्।`
+                  : `नियम ${requestedRuleNo} को विस्तृत पाठका लागि आधिकारिक नियमावली हेर्नुहोस्।`}
+              </p>
+            </div>
+            <a
+              href={RULES_METADATA.pdfPath}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex shrink-0 items-center gap-2 self-start rounded-lg border border-blue-300 bg-white px-3 py-2 text-xs font-bold text-blue-800 transition hover:bg-blue-100"
+            >
+              नियमावली PDF खोल्नुहोस्
+              <ArrowRight className="h-3.5 w-3.5" />
+            </a>
+          </div>
+        </section>
+      )}
+
       {/* Rules List */}
       <div className="space-y-4">
         {filteredNiyams.length === 0 ? (
           <div className="bg-white border border-slate-200 rounded-xl p-12 text-center text-slate-500 space-y-2">
             <BookOpen className="w-10 h-10 text-slate-300 mx-auto" />
-            <p className="text-base font-semibold text-slate-800">खोजिए बमोजिम कुनै नियम फेला परेन।</p>
-            <p className="text-xs">कृपया फरक शब्द प्रयोग गर्नुहोस् वा परिच्छेद परिवर्तन गर्नुहोस्।</p>
+            <p className="text-base font-semibold text-slate-800">
+              {selectedChapterRuleCount === 0 && selectedChapterInfo
+                ? 'यस परिच्छेदका विस्तृत नियमहरू डिजिटल सूचीमा उपलब्ध छैनन्।'
+                : 'खोजिए बमोजिम कुनै नियम फेला परेन।'}
+            </p>
+            <p className="text-xs">
+              {selectedChapterRuleCount === 0 && selectedChapterInfo
+                ? 'माथिको आधिकारिक PDF लिंकबाट सम्बन्धित नियमहरू हेर्नुहोस्।'
+                : 'कृपया फरक शब्द प्रयोग गर्नुहोस् वा परिच्छेद परिवर्तन गर्नुहोस्।'}
+            </p>
           </div>
         ) : (
           filteredNiyams.map((niyam) => {
@@ -207,7 +303,7 @@ export const RulesSection: React.FC<RulesSectionProps> = ({
                   {isExpanded && (
                     <div className="mt-4 pt-4 border-t border-slate-100 animate-in fade-in duration-100">
                       <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-1">
-                        मूल राजपत्र कानुनी पाठ:
+                        नियमावलीको पाठ:
                       </span>
                       <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-800 leading-relaxed whitespace-pre-line">
                         {niyam.fullText}

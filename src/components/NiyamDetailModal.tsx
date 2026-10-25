@@ -34,6 +34,16 @@ export const NiyamDetailModal: React.FC<NiyamDetailModalProps> = ({
     window.print();
   };
 
+  const handleNavigateToSchedule = (scheduleReference: string) => {
+    const digits = scheduleReference.match(/[०-९0-9]+/)?.[0];
+    if (!digits || !onNavigateToSchedule) return;
+
+    const scheduleNo = Number(digits.replace(/[०-९]/g, (digit) =>
+      String(digit.charCodeAt(0) - 0x0966)
+    ));
+    if (Number.isInteger(scheduleNo)) onNavigateToSchedule(scheduleNo);
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-in fade-in duration-150">
       <div className="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-3xl max-h-[90vh] flex flex-col overflow-hidden">
@@ -143,12 +153,15 @@ export const NiyamDetailModal: React.FC<NiyamDetailModalProps> = ({
                 <span className="text-xs text-blue-700 font-semibold block">सम्बन्धित अनुसूची (ढाँचा):</span>
                 <div className="flex flex-wrap gap-1.5">
                   {niyam.relatedSchedules.map((s) => (
-                    <span
+                    <button
                       key={s}
-                      className="px-2 py-0.5 bg-blue-100 text-blue-800 rounded font-semibold text-xs"
+                      type="button"
+                      onClick={() => handleNavigateToSchedule(s)}
+                      disabled={!onNavigateToSchedule}
+                      className="px-2 py-0.5 bg-blue-100 text-blue-800 rounded font-semibold text-xs transition hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:cursor-default disabled:hover:bg-blue-100"
                     >
                       {s}
-                    </span>
+                    </button>
                   ))}
                 </div>
               </div>

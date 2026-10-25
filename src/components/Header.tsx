@@ -218,7 +218,7 @@ export const Header: React.FC<HeaderProps> = ({
             <span className="h-1.5 w-1.5 rounded-full bg-blue-300" />
             पहिलो संशोधन २०८१ सहित
           </span>
-          <p className="mt-2 text-[10px] text-blue-200/70">सार्वजनिक वित्तीय व्यवस्थापन पोर्टल</p>
+          <p className="mt-2 text-[10px] text-blue-200/70">सार्वजनिक वित्तीय जानकारी पेज</p>
         </div>
       </aside>
 

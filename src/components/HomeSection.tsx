@@ -30,19 +30,19 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, onOpenSea
   return (
     <div className="space-y-8 pb-12">
       {/* Hero Banner */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-950 via-slate-900 to-red-950 text-white p-6 sm:p-10 border border-slate-800 shadow-xl">
+      <div className="home-hero-enter relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-950 via-slate-900 to-red-950 text-white p-6 sm:p-10 border border-slate-800 shadow-xl">
         <div className="pointer-events-none absolute inset-y-0 right-0 w-full sm:w-[52%]">
           <img
             src={mofImage}
             alt=""
             aria-hidden="true"
-            className="h-full w-full object-cover object-center"
+            className="home-hero-image-enter h-full w-full object-cover object-center"
             style={{ filter: 'grayscale(1) sepia(0.35) hue-rotate(175deg) saturate(1.35) brightness(0.72)' }}
           />
           <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/65 to-slate-900/10" />
         </div>
 
-        <div className="relative z-10 max-w-3xl space-y-4 sm:max-w-[62%]">
+        <div className="home-hero-content-enter relative z-10 max-w-3xl space-y-4 sm:max-w-[62%]">
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-red-600/30 text-red-300 border border-red-500/30 rounded-full text-xs font-semibold">
             <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
             <span>आर्थिक कार्यविधि तथा वित्तीय उत्तरदायित्व</span>
@@ -87,23 +87,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, onOpenSea
 
       </div>
 
-      <button
-        type="button"
-        onClick={() => onSelectTab('fiscal-framework')}
-        className="group flex w-full items-center justify-between gap-4 rounded-2xl border border-blue-200 bg-blue-50/70 p-5 text-left transition hover:border-blue-400 hover:bg-blue-50 sm:p-6"
-      >
-        <span className="flex items-start gap-3">
-          <span className="rounded-xl bg-blue-100 p-2.5 text-blue-800">
-            <Scale className="h-5 w-5" />
-          </span>
-          <span>
-            <span className="block text-xs font-bold uppercase tracking-wider text-blue-800">थप कानुनी आधार</span>
-            <span className="mt-1 block font-bold text-slate-900">नेपालको संविधान र अन्तर–सरकारी वित्त व्यवस्थापन ऐन</span>
-            <span className="mt-1 block text-sm text-slate-600">वित्तीय संघीयता, कर अधिकार, राजस्व बाँडफाँट, अनुदान, ऋण र जवाफदेहिताका सारांश प्रावधानहरू</span>
-          </span>
-        </span>
-        <ArrowRight className="h-5 w-5 shrink-0 text-blue-700 transition-transform group-hover:translate-x-1" />
-      </button>
+
 
       {/* Official Statistics Matrix */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -115,7 +99,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, onOpenSea
           <div className="text-3xl font-extrabold text-slate-900 group-hover:text-red-700 mt-1">
             ६८ <span className="text-sm font-semibold text-slate-500">दफाहरू</span>
           </div>
-          <div className="text-xs text-slate-500 mt-1">१० वटा परिच्छेद (२०८१ संशोधन)</div>
+          <div className="text-xs text-slate-500 mt-1">१० परिच्छेद (२०८१ संशोधन)</div>
         </div>
 
         <div
@@ -126,14 +110,14 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, onOpenSea
           <div className="text-3xl font-extrabold text-slate-900 group-hover:text-emerald-700 mt-1">
             १३६ <span className="text-sm font-semibold text-slate-500">नियमहरू</span>
           </div>
-          <div className="text-xs text-slate-500 mt-1">१४ वटा परिच्छेद (नेपाल राजपत्र)</div>
+          <div className="text-xs text-slate-500 mt-1">१४ परिच्छेद</div>
         </div>
 
         <div
           onClick={() => onSelectTab('schedules')}
           className="p-5 bg-white border border-slate-200 rounded-xl hover:border-blue-400 transition cursor-pointer shadow-2xs group"
         >
-          <div className="text-xs font-semibold text-slate-500 uppercase">कानूनी ढाँचाहरू</div>
+          <div className="text-xs font-semibold text-slate-500 uppercase">अनुसूची ढाँचाहरू</div>
           <div className="text-3xl font-extrabold text-slate-900 group-hover:text-blue-700 mt-1">
             १९ <span className="text-sm font-semibold text-slate-500">अनुसूचीहरू</span>
           </div>
@@ -337,7 +321,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, onOpenSea
       </div>
 
       {/* Official Downloads Strip */}
-      <div className="bg-slate-900 text-white rounded-2xl p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6">
+      {/* <div className="bg-slate-900 text-white rounded-2xl p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="space-y-1 text-center md:text-left">
           <h4 className="text-lg font-bold">नेपाल राजपत्र र कानून आयोगका मूल कानूनी पीडीएफ कागजातहरू</h4>
           <p className="text-xs text-slate-400">
@@ -362,7 +346,24 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, onOpenSea
             <span>नियमावली, २०७७ (१३.१ MB)</span>
           </a>
         </div>
-      </div>
+      </div> */}
+            <button
+        type="button"
+        onClick={() => onSelectTab('fiscal-framework')}
+        className="group flex w-full items-center justify-between gap-4 rounded-2xl border border-blue-200 bg-blue-50/70 p-5 text-left transition hover:border-blue-400 hover:bg-blue-50 sm:p-6"
+      >
+        <span className="flex items-start gap-3">
+          <span className="rounded-xl bg-blue-100 p-2.5 text-blue-800">
+            <Scale className="h-5 w-5" />
+          </span>
+          <span>
+            <span className="block text-xs font-bold uppercase tracking-wider text-blue-800">थप कानुनी आधार</span>
+            <span className="mt-1 block font-bold text-slate-900">नेपालको संविधान र अन्तर–सरकारी वित्त व्यवस्थापन ऐन</span>
+            <span className="mt-1 block text-sm text-slate-600">वित्तीय संघीयता, कर अधिकार, राजस्व बाँडफाँट, अनुदान, ऋण र जवाफदेहिताका सारांश प्रावधानहरू</span>
+          </span>
+        </span>
+        <ArrowRight className="h-5 w-5 shrink-0 text-blue-700 transition-transform group-hover:translate-x-1" />
+      </button>
     </div>
   );
 };

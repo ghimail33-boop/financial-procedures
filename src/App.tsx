@@ -63,6 +63,7 @@ export default function App() {
   const [selectedDafa, setSelectedDafa] = useState<DafaItem | null>(null);
   const [selectedNiyam, setSelectedNiyam] = useState<NiyamItem | null>(null);
   const [selectedSchedule, setSelectedSchedule] = useState<ScheduleItem | null>(null);
+  const [requestedRuleNo, setRequestedRuleNo] = useState<string | null>(null);
 
   // Keyboard shortcut '/' or 'Cmd+K' to open search
   useEffect(() => {
@@ -77,6 +78,7 @@ export default function App() {
   }, []);
 
   const handleNavigate = (tab: ActiveTab, targetId?: string | number) => {
+    setRequestedRuleNo(null);
     setActiveTab(tab);
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
@@ -95,15 +97,20 @@ export default function App() {
   };
 
   const handleNavigateToRule = (ruleString: string) => {
-    // extract digits
-    const match = ruleString.match(/\d+/);
-    if (match) {
-      const num = match[0];
-      const found = RULES_DATA.find((r) => r.niyamNo === num);
-      if (found) {
-        setSelectedNiyam(found);
-      }
-    }
+    const match = ruleString.match(/[०-९0-9]+/)?.[0];
+    if (!match) return;
+
+    const toArabicNumerals = (value: string) =>
+      value.replace(/[०-९]/g, (digit) => String(digit.charCodeAt(0) - 0x0966));
+    const ruleNumber = toArabicNumerals(match);
+    const found = RULES_DATA.find((rule) => toArabicNumerals(rule.niyamNo) === ruleNumber);
+
+    setSelectedDafa(null);
+    setSelectedSchedule(null);
+    setRequestedRuleNo(found ? null : ruleNumber);
+    setSelectedNiyam(found ?? null);
+    setActiveTab('rules');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleNavigateToDafa = (dafaString: string) => {
@@ -129,6 +136,7 @@ export default function App() {
       <Header
         activeTab={activeTab}
         onSelectTab={(tab) => {
+          setRequestedRuleNo(null);
           setActiveTab(tab);
           window.scrollTo({ top: 0, behavior: 'smooth' });
         }}
@@ -146,6 +154,7 @@ export default function App() {
         {activeTab === 'home' && (
           <HomeSection
             onSelectTab={(tab) => {
+              setRequestedRuleNo(null);
               setActiveTab(tab);
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
@@ -167,6 +176,7 @@ export default function App() {
             onOpenNiyamModal={setSelectedNiyam}
             bookmarks={bookmarks}
             onToggleBookmark={toggleBookmark}
+            requestedRuleNo={requestedRuleNo}
             onNavigateToSchedule={(schedNo) => {
               const s = SCHEDULES_DATA.find((item) => item.scheduleNo === schedNo);
               if (s) setSelectedSchedule(s);
@@ -229,6 +239,14 @@ export default function App() {
         onClose={() => setSelectedNiyam(null)}
         isBookmarked={selectedNiyam ? bookmarks.includes(`rule-${selectedNiyam.id}`) : false}
         onToggleBookmark={toggleBookmark}
+        onNavigateToSchedule={(scheduleNo) => {
+          const schedule = SCHEDULES_DATA.find((item) => item.scheduleNo === scheduleNo);
+          if (!schedule) return;
+          setSelectedNiyam(null);
+          setActiveTab('schedules');
+          setSelectedSchedule(schedule);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
         onNavigateToDafa={handleNavigateToDafa}
       />
 
@@ -265,11 +283,9 @@ export default function App() {
             <div className="space-y-1.5">
               <span className="font-bold text-white text-xs block uppercase">प्रणालीमा उपलब्ध दस्तावेज:</span>
               <ul className="space-y-1 text-slate-400">
-                <li>• आर्थिक कार्यविधि तथा वित्तीय उत्तरदायित्व ऐन, २०७६</li>
-                <li>• पहिलो संशोधन ऐन, २०८१ (२०८१।१२।१८)</li>
-                <li>• आर्थिक कार्यविधि तथा वित्तीय उत्तरदायित्व नियमावली, २०७७</li>
-                <li>• राजपत्रका सम्पूर्ण १९ वटा आधिकारिक अनुसूचीहरू</li>
                 <li>• नेपालको संविधान, २०७२</li>
+                <li>• आर्थिक कार्यविधि तथा वित्तीय उत्तरदायित्व ऐन, २०७६</li>
+                <li>• आर्थिक कार्यविधि तथा वित्तीय उत्तरदायित्व नियमावली, २०७७</li>
                 <li>• अन्तर–सरकारी वित्त व्यवस्थापन ऐन, २०७४</li>
               </ul>
             </div>

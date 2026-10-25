@@ -30,13 +30,13 @@ export const ScheduleDetailModal: React.FC<ScheduleDetailModalProps> = ({ schedu
         <div className="p-5 bg-slate-900 text-white flex items-start justify-between gap-4 border-b border-slate-800">
           <div>
             <div className="flex items-center gap-2 text-xs font-semibold text-amber-400 mb-1">
-              <span>नेपाल सरकार · आर्थिक कार्यविधि तथा वित्तीय उत्तरदायित्व नियमावली, २०७७</span>
+              <span>आर्थिक कार्यविधि तथा वित्तीय उत्तरदायित्व नियमावली, २०७७</span>
             </div>
             <h2 className="text-xl font-bold tracking-tight text-white">
               अनुसूची-{schedule.nepaliNumber}: {schedule.title}
             </h2>
             <p className="text-xs text-slate-300 mt-0.5">
-              कानुनी आधार: <strong>{schedule.relatedRule}</strong>
+              कानूनी आधार: <strong>{schedule.relatedRule}</strong>
             </p>
           </div>
 
@@ -70,7 +70,7 @@ export const ScheduleDetailModal: React.FC<ScheduleDetailModalProps> = ({ schedu
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-1">
               <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
-                फारामको मुख्य उद्देश्य (Purpose):
+                फारामको उद्देश्य (Purpose):
               </span>
               <p className="text-sm font-medium text-slate-800">{schedule.purpose}</p>
             </div>
@@ -88,7 +88,7 @@ export const ScheduleDetailModal: React.FC<ScheduleDetailModalProps> = ({ schedu
               <div className="flex items-center justify-between">
                 <h4 className="text-sm font-bold text-slate-900 flex items-center gap-2">
                   <Table className="w-4 h-4 text-red-600" />
-                  <span>वैधानिक ह्रास कट्टी दररेट तालिका (Depreciation Rate Matrix):</span>
+                  <span>ह्रास कट्टी दररेट तालिका (Depreciation Rate Matrix):</span>
                 </h4>
                 <span className="text-xs text-slate-500">घट्दो ह्रास कट्टी विधि (WDV)</span>
               </div>
@@ -99,7 +99,7 @@ export const ScheduleDetailModal: React.FC<ScheduleDetailModalProps> = ({ schedu
                       <th className="py-2.5 px-4 w-16">क्र.सं.</th>
                       <th className="py-2.5 px-4">सम्पत्ति तथा जिन्सीको विवरण</th>
                       <th className="py-2.5 px-4 w-32 text-center">ह्रास कट्टी दर</th>
-                      <th className="py-2.5 px-4">कानुनी मापदण्ड तथा टिप्पणी</th>
+                      <th className="py-2.5 px-4">कानूनी मापदण्ड तथा टिप्पणी</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100">
