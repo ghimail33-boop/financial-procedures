@@ -315,14 +315,11 @@ export default function App() {
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-slate-500 text-[11px]">
+          {/* <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-slate-500 text-[11px]">
             <div>
               © २०८३ · आर्थिक कार्यविधि तथा वित्तीय उत्तरदायित्व सम्बन्धी कानूनको जानकारीमूलक पेज।
             </div>
-            <div>
-              {/* स्रोत: नेपाल कानुन आयोग तथा नेपाल राजपत्र */}
-            </div>
-          </div>
+          </div> */}
         </div>
       </footer>
       </div>

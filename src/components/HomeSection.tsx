@@ -55,8 +55,8 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, onOpenSea
 
           <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
             {/* जिम्मेवार, पारदर्शी, नतिजामूलक र उत्तरदायी सार्वजनिक वित्तीय व्यवस्थापन <br /> */}
-            <strong> आर्थिक कार्यविधि तथा वित्तीय उत्तरदायित्व ऐन, २०७६ (संशोधन २०८१ सहित)</strong> र{' '}
-            <strong>नियमावली, २०७७</strong>, नेपालको संविधान, २०७२ तथा अन्तर–सरकारी वित्त व्यवस्थापन ऐन, २०७४ को जानकारीमूलक पेज।
+            <strong> आर्थिक कार्यविधि तथा वित्तीय उत्तरदायित्व ऐन, २०७६ र{' '} नियमावली, २०७७ </strong> <br/>
+            नेपालको संविधान, २०७२ तथा अन्तर–सरकारी वित्त व्यवस्थापन ऐन, २०७४ को जानकारीमूलक पेज।
           </p>
 
           {/* Quick Action Buttons */}
@@ -188,8 +188,8 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, onOpenSea
               {RULES_METADATA.nameNepali}
             </h3>
             <p className="text-xs text-slate-600 leading-relaxed">
-              एकल खाता कोष (TSA), असार मसान्तभन्दा ७ दिन अगावै भुक्तानी बन्द, कार्यसम्पादन करार (८०+ उत्कृष्ट),
-              पेश्कीमा १०% ब्याज, धरौटी फिर्ता १ वर्ष, जिन्सी लिलाम बिक्री विधि र १९ वटा अनिवार्य फारामहरू।
+              एकल खाता कोष (TSA), असार मसान्तभन्दा ७ दिन अगावै भुक्तानी बन्द, कार्यसम्पादन करार,
+              पेश्कीमा १०% ब्याज, धरौटी फिर्ता १ वर्ष, जिन्सी लिलाम बिक्री विधि र १९ अनुसूची फारामहरू।
             </p>
 
             <div className="bg-slate-50 rounded-xl p-3 text-xs text-slate-700 space-y-1 border border-slate-200">
@@ -359,7 +359,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, onOpenSea
           <span>
             <span className="block text-xs font-bold uppercase tracking-wider text-blue-800">थप कानुनी आधार</span>
             <span className="mt-1 block font-bold text-slate-900">नेपालको संविधान र अन्तर–सरकारी वित्त व्यवस्थापन ऐन</span>
-            <span className="mt-1 block text-sm text-slate-600">वित्तीय संघीयता, कर अधिकार, राजस्व बाँडफाँट, अनुदान, ऋण र जवाफदेहिताका सारांश प्रावधानहरू</span>
+            <span className="mt-1 block text-sm text-slate-600">वित्तीय संघीयता, कर अधिकार, राजस्व बाँडफाँट, अनुदान, ऋण र जवाफदेहिताका प्रावधानहरूको सारांश</span>
           </span>
         </span>
         <ArrowRight className="h-5 w-5 shrink-0 text-blue-700 transition-transform group-hover:translate-x-1" />
